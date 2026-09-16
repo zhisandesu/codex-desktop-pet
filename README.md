@@ -1,18 +1,18 @@
-# 柯朵 · 我把 Codex 娘做成桌宠了
+# 柯朵桌宠 1.0 · 我将codex娘做成桌宠了
 
 让 Codex 的工作状态变成桌面上看得见的小动作。
 
 柯朵（Keduo）是一只住在 Windows 桌面上的小龙娘。她会在你写代码时陪着你：空闲时走来走去、坐下发呆、自己玩耍；任务忙起来时坐到电脑前工作，结束后再给你反馈。你也可以摸摸头、把她拎起来，或者打开旁边的小球和她聊天。
 
-<p align="center">
-  <img src="XiaobianPet/Assets/animations/idle-video/00.png" width="280" alt="柯朵：白发、紫眼睛、带龙角和小翅膀的桌宠角色">
-</p>
+![柯朵桌宠 1.0：我将codex娘做成桌宠了](docs/media/keduo-1.0-cover-4x3.png)
 
 [下载与版本记录](https://github.com/zhisandesu/codex-desktop-pet/releases) · [使用指南](docs/USER_GUIDE.md) · [反馈问题](https://github.com/zhisandesu/codex-desktop-pet/issues)
 
-这是个人社区项目，不是 OpenAI 官方产品，也不附带 Codex 程序、开发者的 API Key、登录信息、个人设置或聊天记录。当前是预览版，代码和角色素材尚未指定开源或再分发许可证，详见 [授权状态](LICENSE-STATUS.md)。
+这是个人社区项目，不是 OpenAI 官方产品，也不附带 Codex 程序、开发者的 API Key、登录信息、个人设置或聊天记录。当前版本命名为 1.0；代码和角色素材尚未指定开源或再分发许可证，详见 [授权状态](LICENSE-STATUS.md)。版本更名不代表完成了所有环境的兼容性验收。
 
 ## 她能做什么
+
+![柯朵桌宠的桌面互动、任务陪伴与中文聊天功能](docs/media/keduo-1.0-features-16x9.png)
 
 - **桌面互动**：轻抚头部、单击弹脑门、双击问候，长按后按抓取位置触发不同反应；右键调整外观和功能。
 - **自主动作**：走路、跑摔、攀爬、跳落、坐姿待机，以及捉迷藏、飞机手、玩尾巴等小动作。
@@ -26,13 +26,13 @@
 
 ## 使用便携版
 
-1. 从 [Releases](https://github.com/zhisandesu/codex-desktop-pet/releases) 下载 `Keduo-版本-win-x64-portable.zip`，完整解压到有写入权限的目录。首次预览包约 632 MiB。普通使用者无需下载源码包。
+1. 取得 `Keduo-1.0-win-x64-portable.zip` 后，完整解压到有写入权限的目录。普通使用者无需下载源码包。先阅读包内 `先读我-使用说明.md`；仓库公开发布后，可从 [Releases](https://github.com/zhisandesu/codex-desktop-pet/releases) 获取后续版本。
 2. 双击 `Start-Keduo.cmd` 或 `XiaobianPet.exe`。Windows x64；便携版包含 .NET 运行时，不需单独安装 .NET。
 3. 先体验角色动画和鼠标互动。连接 Codex 的功能需要你自己安装、登录兼容的 Codex 桌面端/CLI；动态台词依赖账号可用模型及额度。未连接时部分功能不可用。
 4. 云端语音可选：运行 `Configure-Voice.cmd`，输入你自己的方舟 Agent Plan 凭据，隐藏输入并保存到你自己的 Windows 凭据管理器。没有该凭据时语音朗读可回退到本机 SAPI。
 5. 本机识别回退可选：`Setup-Local-ASR.cmd` 会安装 Python 依赖并下载约 1.6 GB 模型；不作为启动前置条件。此脚本针对 CUDA/GPU 方案，请先检查自己的硬件与磁盘空间。
 
-未签名的预览版不包含代码签名证书；请先核对发行来源和 SHA256。不要为了运行程序关闭系统防护。
+本版未签名；请先核对发行来源和 SHA256。不要为了运行程序关闭系统防护。
 
 下载页的 `SHA256SUMS.txt` 可用于校验压缩包。在 PowerShell 中运行 `Get-FileHash .\Keduo-版本-win-x64-portable.zip -Algorithm SHA256`，把结果与对应文件名的校验值比较。
 
@@ -76,7 +76,7 @@ dotnet run --project .\XiaobianPet\XiaobianPet.csproj
 python .\tools\release.py package
 ```
 
-生成 `release-output/版本/`：便携 ZIP、源码 ZIP、SHA256SUMS.txt 和发行文件清单。已有同版本目录不会覆盖；需要修复重打时使用新版本。
+生成 `release-output/版本/`：便携 ZIP、源码 ZIP、封面与说明 ZIP、SHA256SUMS.txt 和发行文件清单。已有同版本目录不会覆盖；需要修复重打时使用新版本。对外版本和文件名使用 1.0，.NET 构建版本自动补齐为 1.0.0。
 
 更新程序时退出旧版、解压新版到新文件夹。个人配置仍使用同一个 LocalAppData 目录；建议更新前自行备份该目录，备份不能上传仓库。暂不包含在线自动更新器。
 

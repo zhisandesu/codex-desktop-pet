@@ -1,9 +1,22 @@
 """Synthetic secret fixtures are constructed at runtime, never real credentials."""
 import unittest
-from release import findings, source_allowed, vendor_path_exception, VENDOR_PROFILE_HASHES
+from release import findings, source_allowed, vendor_path_exception, VENDOR_PROFILE_HASHES, normalized_version
 import hashlib
 
 class ReleaseGuardTests(unittest.TestCase):
+    def test_display_and_build_versions(self):
+        self.assertEqual(normalized_version('1.0'), '1.0.0')
+        self.assertEqual(normalized_version('1.2.3'), '1.2.3')
+        self.assertEqual(normalized_version('1.1-preview.1'), '1.1.0-preview.1')
+        for value in ('../1.0', 'v1.0', '1', '1.0/extra'):
+            with self.assertRaises(ValueError):
+                normalized_version(value)
+
+    def test_media_allowlist(self):
+        self.assertTrue(source_allowed('docs/media/keduo-1.0-cover-4x3.png'))
+        self.assertFalse(source_allowed('docs/media/settings.json'))
+        self.assertFalse(source_allowed('docs/media/unreviewed.png'))
+
     def test_vendor_exception_is_narrow(self):
         data = b'synthetic vendor bytes'
         VENDOR_PROFILE_HASHES['fixture.dll'] = hashlib.sha256(data).hexdigest()

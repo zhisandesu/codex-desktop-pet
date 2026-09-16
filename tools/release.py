@@ -54,6 +54,8 @@ def files(root, skip_build=False):
 
 def source_allowed(name):
     p = Path(name)
+    if re.fullmatch(r'docs/media/keduo-\d+\.\d+(?:\.\d+)?-(?:cover-4x3|features-16x9)\.png', name):
+        return True
     if name in {'README.md', 'CHANGELOG.md', 'SECURITY.md', 'LICENSE-STATUS.md', 'THIRD-PARTY-NOTICES.md',
                 'version.json', 'global.json', 'Directory.Build.props', '.gitignore', '.gitattributes',
                 '.github/dependabot.yml', '.github/workflows/build.yml', '.github/workflows/release.yml'}:
@@ -173,9 +175,22 @@ def archive(folder, output, paths):
             if item.filename.startswith('/') or '..' in Path(item.filename).parts:
                 raise ValueError('Unsafe archive path')
 
+def normalized_version(version):
+    if not re.fullmatch(r'\d+\.\d+(?:\.\d+)?(?:-[A-Za-z0-9.-]+)?', version):
+        raise ValueError('Use a two- or three-component version without a leading v')
+    core, separator, suffix = version.partition('-')
+    if core.count('.') == 1:
+        core += '.0'
+    return core + separator + suffix
+
 def package(version, framework_dependent=False):
-    if not re.fullmatch(r'\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?', version):
-        raise ValueError('Use a SemVer version without a leading v')
+    build_version = normalized_version(version)
+    release_notes = ROOT / 'docs' / f'RELEASE-{version}.md'
+    media = [ROOT / 'docs/media' / f'keduo-{version}-{suffix}.png'
+             for suffix in ('cover-4x3', 'features-16x9')]
+    for required in media + [release_notes, ROOT / 'docs/QUICKSTART.md']:
+        if not required.is_file():
+            raise ValueError('Missing versioned release material: ' + required.name)
     scan(ROOT, source=True)
     check_assets()
     out = ROOT / 'release-output' / version
@@ -184,7 +199,8 @@ def package(version, framework_dependent=False):
     published = out / f'Keduo-{version}-win-x64-{kind}'
     run(['dotnet', 'publish', str(APP / 'XiaobianPet.csproj'), '-c', 'Release', '-r', 'win-x64',
          '--self-contained', str(not framework_dependent).lower(), '-o', str(published),
-         '-p:Version=' + version, '-p:DebugType=None', '-p:DebugSymbols=false',
+         '-p:Version=' + build_version, '-p:InformationalVersion=' + version,
+         '-p:IncludeSourceRevisionInInformationalVersion=false', '-p:DebugType=None', '-p:DebugSymbols=false',
          '-p:PublishSingleFile=false', '-p:PublishTrimmed=false', '-p:RestoreLockedMode=true'])
     import shutil
     if not framework_dependent:
@@ -210,6 +226,9 @@ def package(version, framework_dependent=False):
     for name in ('README.md', 'SECURITY.md', 'LICENSE-STATUS.md', 'THIRD-PARTY-NOTICES.md', 'CHANGELOG.md'):
         shutil.copy2(ROOT / name, published / name)
     shutil.copytree(ROOT / 'docs', published / 'docs')
+    shutil.copy2(ROOT / 'docs/QUICKSTART.md', published / '先读我-使用说明.md')
+    (published / '先读我-使用说明.txt').write_text(
+        (ROOT / 'docs/QUICKSTART.md').read_text('utf-8'), encoding='utf-8-sig')
     for rel in ('Scripts/setup_local_asr.ps1', 'Scripts/whisper_worker.py',
                 'tools/Set-XiaobianTtsCredential.ps1', 'tools/Set-XiaobianArkModelCredential.ps1'):
         dest = published / rel
@@ -224,11 +243,14 @@ def package(version, framework_dependent=False):
     scan(ROOT, source=True)
     source_zip = out / f'Keduo-{version}-source.zip'
     app_zip = out / f'{published.name}.zip'
+    media_zip = out / f'Keduo-{version}-covers-and-guide.zip'
     archive(ROOT, source_zip, source_paths)
     archive(published, app_zip, list(files(published)))
-    (out / 'SHA256SUMS.txt').write_text(''.join(f'{sha(p)}  {p.name}\n' for p in (source_zip, app_zip)), encoding='utf-8')
+    media_paths = media + [ROOT / 'docs/QUICKSTART.md', release_notes]
+    archive(ROOT / 'docs', media_zip, media_paths)
+    (out / 'SHA256SUMS.txt').write_text(''.join(f'{sha(p)}  {p.name}\n' for p in (source_zip, app_zip, media_zip)), encoding='utf-8')
     inventory = [{'path': p.relative_to(published).as_posix(), 'bytes': p.stat().st_size, 'sha256': sha(p)} for p in files(published)]
-    (out / 'release-audit.json').write_text(json.dumps({'version': version, 'secrets_scan': 'pass',
+    (out / 'release-audit.json').write_text(json.dumps({'version': version, 'build_version': build_version, 'secrets_scan': 'pass',
         'archive_crc': 'pass', 'runtime': kind, 'files': inventory}, ensure_ascii=False, indent=2), encoding='utf-8')
     print('READY ' + str(out), flush=True)
 

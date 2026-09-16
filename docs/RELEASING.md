@@ -24,7 +24,7 @@ GitHub 网页拖文件不适合该仓库的动画集。LFS 会保存并传输大
 1. 选定一个代码源：建议将干净 Git 仓库作为新的日常开发目录。如果仍在旧工作区修改，请通过旧工作区 `release-tools/export_public.py --name 新目录名` 导出新候选，然后审阅差异后合入 Git 仓库。不要用整个旧目录覆盖新仓库。
 2. 更新动画时同时重建 `animation-manifest.json` 的 SHA256；沿用旧工作区导出器可自动完成。代码和动画配置必须同批提交。
 3. 改依赖后有意更新并提交 `packages.lock.json`（`dotnet restore XiaobianPet/XiaobianPet.csproj --force-evaluate`）。普通发布使用 locked mode，依赖不匹配就失败。随包运行时补丁固定在 Directory.Build.props，当前为 9.0.20；发布前检查微软安全更新，升级后重新恢复、测试和打包。NAudio 升级后需重新核查扫描器中的供应商 DLL 哈希。
-4. 更新 `version.json`、CHANGELOG；运行 scan、test、package。测试仅选离线 harness，账号连接测试不在默认列表内。
+4. 更新 `version.json`、CHANGELOG、README 和 QUICKSTART；为新版本准备 `docs/RELEASE-版本.md`、`docs/media/keduo-版本-cover-4x3.png` 和 `docs/media/keduo-版本-features-16x9.png`。运行 scan、test、package；缺少对应版本的介绍或图片时打包会停止，避免混入旧版本封面。测试仅选离线 harness，账号连接测试不在默认列表内。
 5. 在自己机器上做启动、无凭据启动、点击/拖拽、外观、退出与旧配置迁移检查；换一台没有开发工具的 Windows x64 机器验收便携包。
 6. 提交并推送；创建与版本号一致的 `v版本` Git tag。工作流构建、检查，再创建 **草稿** Release，人工验收附件和授权后才发布。
 
