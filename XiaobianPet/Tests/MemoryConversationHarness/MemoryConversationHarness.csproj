@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="..\..\Models\CharacterProfile.cs" Link="Models\CharacterProfile.cs" />
+    <Compile Include="..\..\Models\CompanionSession.cs" Link="Models\CompanionSession.cs" />
+    <Compile Include="..\..\Models\ConversationArchive.cs" Link="Models\ConversationArchive.cs" />
+    <Compile Include="..\..\Models\ConversationContext.cs" Link="Models\ConversationContext.cs" />
+    <Compile Include="..\..\Models\PetDialogue.cs" Link="Models\PetDialogue.cs" />
+    <Compile Include="..\..\Models\PetMemory.cs" Link="Models\PetMemory.cs" />
+    <Compile Include="..\..\Models\PetSettings.cs" Link="Models\PetSettings.cs" />
+    <Compile Include="..\..\Models\TtsVoiceCatalog.cs" Link="Models\TtsVoiceCatalog.cs" />
+    <Compile Include="..\..\Services\CharacterProfileStore.cs" Link="Services\CharacterProfileStore.cs" />
+    <Compile Include="..\..\Services\ArkAgentPlanAsrClient.cs" Link="Services\ArkAgentPlanAsrClient.cs" />
+    <Compile Include="..\..\Services\CompanionSessionStore.cs" Link="Services\CompanionSessionStore.cs" />
+    <Compile Include="..\..\Services\CompanionThreadIdentity.cs" Link="Services\CompanionThreadIdentity.cs" />
+    <Compile Include="..\..\Services\ConversationArchiveStore.cs" Link="Services\ConversationArchiveStore.cs" />
+    <Compile Include="..\..\Services\ConversationContextStore.cs" Link="Services\ConversationContextStore.cs" />
+    <Compile Include="..\..\Services\PetCommandRouter.cs" Link="Services\PetCommandRouter.cs" />
+    <Compile Include="..\..\Services\PetDialogueService.cs" Link="Services\PetDialogueService.cs" />
+    <Compile Include="..\..\Services\PetMemoryStore.cs" Link="Services\PetMemoryStore.cs" />
+    <Compile Include="..\..\Services\SettingsStore.cs" Link="Services\SettingsStore.cs" />
+    <Compile Include="..\..\Services\WindowsCredentialStore.cs" Link="Services\WindowsCredentialStore.cs" />
+  </ItemGroup>
+</Project>

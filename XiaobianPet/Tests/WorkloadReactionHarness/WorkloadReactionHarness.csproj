@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="..\..\Models\PetDialogue.cs" Link="Models\PetDialogue.cs" />
+    <Compile Include="..\..\Models\PetVisualTransitionPolicy.cs" Link="Models\PetVisualTransitionPolicy.cs" />
+    <Compile Include="..\..\Models\PetVisualTransitionQueuePolicy.cs" Link="Models\PetVisualTransitionQueuePolicy.cs" />
+    <Compile Include="..\..\Models\PetWorkloadRoutinePolicy.cs" Link="Models\PetWorkloadRoutinePolicy.cs" />
+    <Compile Include="..\..\Models\PetWorkloadObservationPolicy.cs" Link="Models\PetWorkloadObservationPolicy.cs" />
+    <Compile Include="..\..\Models\PetGrabHitTest.cs" Link="Models\PetGrabHitTest.cs" />
+    <Compile Include="..\..\Models\PetWorkloadGrabProfile.cs" Link="Models\PetWorkloadGrabProfile.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="PetGrabHitTestTests.cs" />
+    <Compile Include="..\..\Models\PetAnimation.cs" Link="Models\PetAnimation.cs" />
+    <Compile Include="..\..\Models\PetWorkloadAnimations.cs" Link="Models\PetWorkloadAnimations.cs" />
+    <Compile Include="..\..\Models\PetWorkloadRoutinePolicy.cs" Link="Models\PetWorkloadRoutinePolicy.cs" />
+    <Compile Include="..\..\Models\PetWorkloadObservationPolicy.cs" Link="Models\PetWorkloadObservationPolicy.cs" />
+    <Compile Include="..\..\Models\PetActionDialogueContext.cs" Link="Models\PetActionDialogueContext.cs" />
+    <Compile Include="..\..\Models\PetDialogue.cs" Link="Models\PetDialogue.cs" />
+    <Compile Include="..\..\Models\PetGrabDialogueContext.cs" Link="Models\PetGrabDialogueContext.cs" />
+    <Compile Include="..\..\Models\PetGrabHitTest.cs" Link="Models\PetGrabHitTest.cs" />
+    <Compile Include="..\..\Models\PetSeatedRoutinePolicy.cs" Link="Models\PetSeatedRoutinePolicy.cs" />
+    <Compile Include="..\..\Models\TtsVoiceCatalog.cs" Link="Models\TtsVoiceCatalog.cs" />
+    <Compile Include="..\..\Services\SpriteAtlas.cs" Link="Services\SpriteAtlas.cs" />
+  </ItemGroup>
+</Project>

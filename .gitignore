@@ -1,0 +1,33 @@
+# Local build/release products
+**/bin/
+**/obj/
+**/__pycache__/
+.vs/
+.idea/
+release-output/
+artifacts/
+dist*/
+*.user
+*.suo
+*.pdb
+*.zip
+*.7z
+# Never commit credentials or personal runtime data
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.log
+*.db
+*.sqlite*
+*.jsonl
+**/settings.json
+**/auth.json
+**/memory.json
+**/character-profile.json
+**/dialogue-session.json
+**/conversation-context.json
+VoiceTemp/
+.codex/
+

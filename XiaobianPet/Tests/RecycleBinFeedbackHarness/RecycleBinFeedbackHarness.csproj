@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Models/RecycleBinFeedback.cs" Link="Models/RecycleBinFeedback.cs" />
+    <Compile Include="../../Models/RecycleBinReactionPolicy.cs" Link="Models/RecycleBinReactionPolicy.cs" />
+    <Compile Include="../../Services/RecycleBinStatisticsService.cs" Link="Services/RecycleBinStatisticsService.cs" />
+  </ItemGroup>
+</Project>

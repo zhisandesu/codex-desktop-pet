@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>XiaobianPet</AssemblyName>
+    <RootNamespace>XiaobianPet</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Test harness sources and their nested obj output are separate projects. -->
+    <Compile Remove="Tests\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\animations\**\*.png"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Assets\animations\README.md"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Assets\animations\animation-manifest.json"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Assets\animations\workload-pack.json" Condition="Exists('Assets\animations\workload-pack.json')"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Assets\animations\palette-calibration.json" Condition="Exists('Assets\animations\palette-calibration.json')"
+             CopyToOutputDirectory="PreserveNewest"
+             CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Scripts\whisper_worker.py"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Resource Include="Assets\ui-corner-ornament.png" />
+    <Resource Include="Assets\ui-knot-divider.png" />
+    <Resource Include="Assets\ui-progress-bubble-shell-generated-v4.png" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,1136 @@
+<Window x:Class="XiaobianPet.PanelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="clr-namespace:XiaobianPet.Models"
+        Title="柯朵 × Codex"
+        Width="468"
+        Height="720"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        KeyDown="Window_KeyDown"
+        Closing="Window_Closing">
+  <Grid Margin="8">
+    <Border Margin="4"
+            Padding="0"
+            Style="{StaticResource MoonGlassShellBorderStyle}">
+      <Border.Effect>
+        <DropShadowEffect BlurRadius="24"
+                          ShadowDepth="4"
+                          Opacity="0.18"
+                          Color="#FF3B315C" />
+      </Border.Effect>
+
+      <Border Margin="3"
+              Padding="15"
+              CornerRadius="22"
+              Background="#16FFFFFF"
+              BorderBrush="{StaticResource MoonHighlightBorderBrush}"
+              BorderThickness="1">
+      <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Grid Grid.Row="0"
+            Height="48"
+            Margin="6,0,8,0"
+            MouseLeftButtonDown="Header_MouseLeftButtonDown">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center">
+          <TextBlock Text="柯朵"
+                     FontSize="21"
+                     FontWeight="Bold"
+                     Foreground="{StaticResource InkBrush}"
+                     VerticalAlignment="Center" />
+          <StackPanel Orientation="Horizontal"
+                      Margin="16,1,0,0"
+                      VerticalAlignment="Center">
+            <Ellipse x:Name="ConnectionDot"
+                     Width="8"
+                     Height="8"
+                     Fill="{StaticResource MintBrush}"
+                     Margin="0,0,8,0"
+                     VerticalAlignment="Center" />
+            <TextBlock x:Name="ConnectionText"
+                       Text="陪你聊天"
+                       FontSize="13"
+                       Foreground="{StaticResource MoonMutedBrush}"
+                       VerticalAlignment="Center" />
+          </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+          <Button Width="34"
+                  Height="34"
+                  Margin="0,0,7,0"
+                  Padding="0"
+                  Background="Transparent"
+                  BorderBrush="Transparent"
+                  Style="{StaticResource MoonIconButtonStyle}"
+                  ToolTip="收起面板"
+                  Click="CloseButton_Click">
+            <TextBlock Text="&#xE921;"
+                       FontFamily="Segoe Fluent Icons"
+                       FontSize="14" />
+          </Button>
+          <Button Width="34"
+                  Height="34"
+                  Padding="0"
+                  Style="{StaticResource MoonIconButtonStyle}"
+                  ToolTip="收起面板"
+                  Click="CloseButton_Click">
+            <TextBlock Text="&#xE8BB;"
+                       FontFamily="Segoe Fluent Icons"
+                       FontSize="14" />
+          </Button>
+        </StackPanel>
+      </Grid>
+
+      <Border x:Name="NoticeBorder"
+              Grid.Row="1"
+              Margin="0,8,0,0"
+              Padding="11,8"
+              CornerRadius="12"
+              Background="#E6F5F1FF"
+              BorderBrush="{StaticResource MoonBorderBrush}"
+              BorderThickness="1"
+              Visibility="Collapsed">
+        <TextBlock x:Name="NoticeText"
+                   TextWrapping="Wrap"
+                   Foreground="#FF625681"
+                   FontSize="11.5" />
+      </Border>
+
+      <Expander x:Name="WorkStatusExpander"
+                Grid.Row="2"
+                Margin="8,9,8,0"
+                IsExpanded="False"
+                Expanded="WorkStatusExpander_Expanded"
+                Collapsed="WorkStatusExpander_Collapsed">
+        <Expander.Template>
+          <ControlTemplate TargetType="{x:Type Expander}">
+            <ToggleButton x:Name="HeaderSite"
+                          Height="46"
+                          Padding="0"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Cursor="Hand"
+                          FocusVisualStyle="{x:Null}"
+                          IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                          Content="{TemplateBinding Header}">
+              <ToggleButton.Template>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                  <Border x:Name="Chrome"
+                          Padding="14,0"
+                          Background="#72FFFFFF"
+                          BorderBrush="{StaticResource MoonSoftBorderBrush}"
+                          BorderThickness="1"
+                          CornerRadius="15">
+                    <ContentPresenter HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Center" />
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter TargetName="Chrome" Property="Background" Value="{StaticResource LavenderSoftBrush}" />
+                      <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource MoonBorderBrush}" />
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="True">
+                      <Setter TargetName="Chrome" Property="Background" Value="#9AFFFFFF" />
+                      <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource LavenderBrush}" />
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </ToggleButton.Template>
+            </ToggleButton>
+          </ControlTemplate>
+        </Expander.Template>
+        <Expander.Header>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="&#xE9D5;"
+                       FontFamily="Segoe Fluent Icons"
+                       FontSize="15"
+                       Foreground="#FF5E5674"
+                       VerticalAlignment="Center" />
+            <TextBlock x:Name="WorkStatusText"
+                       Grid.Column="1"
+                       Margin="10,0,0,0"
+                       Text="工作状态 · 正在连接"
+                       FontSize="13"
+                       FontWeight="SemiBold"
+                       Foreground="{StaticResource InkBrush}"
+                       VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2"
+                       FontFamily="Segoe Fluent Icons"
+                       FontSize="14"
+                       Foreground="#FF665E78"
+                       VerticalAlignment="Center">
+              <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                  <Setter Property="Text" Value="&#xE76C;" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=WorkStatusExpander, Path=IsExpanded}" Value="True">
+                      <Setter Property="Text" Value="&#xE70E;" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBlock.Style>
+            </TextBlock>
+          </Grid>
+        </Expander.Header>
+      </Expander>
+
+      <Grid x:Name="CompanionConversationSurface"
+            Grid.Row="3"
+            Margin="8,18,8,0">
+        <ScrollViewer x:Name="CompanionChatScrollViewer"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+          <StackPanel x:Name="CompanionMessagesPanel"
+                      Margin="2,0,2,8">
+            <Border x:Name="CompanionEmptyState"
+                    Margin="18,34"
+                    Padding="14,12"
+                    Background="Transparent"
+                    BorderThickness="0">
+              <StackPanel>
+                <TextBlock Text="和柯朵聊聊天吧"
+                           HorizontalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Foreground="#FF6C627F" />
+                <TextBlock Text="文字和语音都会接着同一段长期对话"
+                           Margin="0,6,0,0"
+                           HorizontalAlignment="Center"
+                           FontSize="10.5"
+                           Foreground="#FF9992A3" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+
+      <Border x:Name="CompanionComposer"
+              Grid.Row="4"
+              Margin="8,9,8,9"
+              Padding="9"
+              Style="{StaticResource MoonGlassCardStyle}">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid>
+            <TextBox x:Name="CompanionChatInput"
+                     MinHeight="58"
+                     MaxHeight="80"
+                     MaxLength="160"
+                     Padding="11,8"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Top"
+                     VerticalScrollBarVisibility="Auto"
+                     Style="{StaticResource MoonTextBoxStyle}"
+                     ToolTip="直接和柯朵说话。Enter 发送，Shift+Enter 换行。"
+                     TextChanged="CompanionChatInput_TextChanged"
+                     PreviewKeyDown="CompanionChatInput_PreviewKeyDown" />
+            <TextBlock Text="和柯朵说点什么…"
+                       Margin="13,9,0,0"
+                       VerticalAlignment="Top"
+                       IsHitTestVisible="False"
+                       FontSize="11.5"
+                       Foreground="#FF9B94A7">
+              <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                  <Style.Triggers>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=CompanionChatInput, Path=Text}" Value="" />
+                        <Condition Binding="{Binding ElementName=CompanionChatInput, Path=IsKeyboardFocusWithin}" Value="False" />
+                      </MultiDataTrigger.Conditions>
+                      <Setter Property="Visibility" Value="Visible" />
+                    </MultiDataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBlock.Style>
+            </TextBlock>
+          </Grid>
+          <Grid Grid.Row="1" Margin="1,7,1,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="CompanionVoiceButton"
+                    Width="36"
+                    Height="36"
+                    Padding="0"
+                    Style="{StaticResource MoonIconButtonStyle}"
+                    ToolTip="开始连续语音对话。"
+                    Click="VoiceButton_Click">
+              <TextBlock Text="&#xE720;"
+                         FontFamily="Segoe Fluent Icons"
+                         FontSize="16" />
+            </Button>
+            <TextBlock x:Name="CompanionChatStatusText"
+                       Grid.Column="1"
+                       Margin="10,0"
+                       Text="准备好啦"
+                       FontSize="10"
+                       Foreground="{StaticResource MoonMutedBrush}"
+                       VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" />
+            <Button x:Name="CompanionSendButton"
+                    Grid.Column="2"
+                    MinWidth="82"
+                    Height="36"
+                    Padding="16,6"
+                    Style="{StaticResource MoonPrimaryButtonStyle}"
+                    IsEnabled="False"
+                    Click="CompanionSendButton_Click">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="发送"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="&#xE724;"
+                           Margin="7,0,0,0"
+                           FontFamily="Segoe Fluent Icons"
+                           FontSize="14" />
+              </StackPanel>
+            </Button>
+          </Grid>
+        </Grid>
+      </Border>
+
+      <Grid x:Name="WorkWorkspace"
+            Grid.Row="3"
+            Margin="0,8,0,0"
+            Visibility="Collapsed">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl x:Name="TaskTabs"
+                    Grid.Row="0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Style="{StaticResource MoonTabControlStyle}">
+        <TabItem x:Name="ResponseTab"
+                 Style="{StaticResource MoonTabItemStyle}"
+                 IsSelected="True">
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE8BD;"
+                         FontFamily="Segoe Fluent Icons"
+                         FontSize="15"
+                         Margin="0,0,7,0" />
+              <TextBlock Text="任务回复" />
+            </StackPanel>
+          </TabItem.Header>
+          <Grid Margin="0,12,0,0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Padding="12,10"
+                    Style="{StaticResource MoonSubtleCardStyle}">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="ChatTaskText"
+                           Text="当前任务：等待选择"
+                           FontSize="12.5"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource InkBrush}"
+                           TextTrimming="CharacterEllipsis" />
+                <Border x:Name="ChatCapabilityBorder"
+                        Grid.Row="1"
+                        Margin="0,7,0,0"
+                        Padding="8,4"
+                        HorizontalAlignment="Left"
+                        CornerRadius="10"
+                        Background="#1F7462D9">
+                  <TextBlock x:Name="ChatCapabilityText"
+                             Text="选择任务后查看可用操作"
+                             FontSize="10.5"
+                             FontWeight="SemiBold"
+                             Foreground="#FF6255AA" />
+                </Border>
+              </Grid>
+            </Border>
+            <TextBlock x:Name="ChatScopeNoticeText"
+                       Grid.Row="1"
+                       Margin="4,8,4,8"
+                       Text="本地控制任务的回复会在这里流式显示。"
+                       TextWrapping="Wrap"
+                       FontSize="10.5"
+                       Foreground="{StaticResource MoonMutedBrush}" />
+            <Border Grid.Row="2"
+                    Padding="13"
+                    Style="{StaticResource MoonGlassCardStyle}">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Margin="0,0,0,10">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE8F2;"
+                               FontFamily="Segoe Fluent Icons"
+                               FontSize="14"
+                               Foreground="{StaticResource LavenderBrush}"
+                               Margin="0,0,7,0" />
+                    <TextBlock Text="任务对话记录"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource InkBrush}" />
+                  </StackPanel>
+                  <TextBlock Grid.Column="1"
+                             Text="本地回复"
+                             FontSize="10"
+                             Foreground="{StaticResource MoonMutedBrush}" />
+                </Grid>
+                <ScrollViewer x:Name="OutputScrollViewer"
+                              Grid.Row="1"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                  <Border Padding="12,10"
+                          CornerRadius="13"
+                          Background="{StaticResource MoonSubtleBrush}"
+                          BorderBrush="{StaticResource MoonBorderBrush}"
+                          BorderThickness="1">
+                    <TextBlock x:Name="OutputTextBlock"
+                               Text="柯朵已经准备好连接 Codex。"
+                               TextWrapping="Wrap"
+                               Foreground="#FF40384F"
+                               FontSize="12"
+                               LineHeight="20" />
+                  </Border>
+                </ScrollViewer>
+              </Grid>
+            </Border>
+          </Grid>
+        </TabItem>
+
+        <TabItem x:Name="TasksTab"
+                 Style="{StaticResource MoonTabItemStyle}">
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE9D5;"
+                         FontFamily="Segoe Fluent Icons"
+                         FontSize="15"
+                         Margin="0,0,7,0" />
+              <TextBlock Text="任务" />
+            </StackPanel>
+          </TabItem.Header>
+          <Grid Margin="0,12,0,0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Margin="3,0,3,8">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock x:Name="TaskCountText"
+                         Text="正在读取 Codex 任务…"
+                         FontSize="12"
+                         FontWeight="SemiBold"
+                         Foreground="{StaticResource InkBrush}"
+                         VerticalAlignment="Center"
+                         TextTrimming="CharacterEllipsis" />
+              <Button x:Name="RefreshButton"
+                      Grid.Column="1"
+                      Margin="7,0,6,0"
+                      Padding="10,5"
+                      Style="{StaticResource MoonSecondaryButtonStyle}"
+                      Content="刷新"
+                      FontSize="10.5"
+                      Click="RefreshButton_Click" />
+              <Button x:Name="NewTaskButton"
+                      Grid.Column="2"
+                      Padding="10,5"
+                      Style="{StaticResource MoonPrimaryButtonStyle}"
+                      Content="新建"
+                      FontSize="10.5"
+                      Click="NewTaskButton_Click" />
+            </Grid>
+            <Border Grid.Row="1"
+                    Margin="0,0,0,8"
+                    Padding="10,8"
+                    Style="{StaticResource MoonSubtleCardStyle}">
+              <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                  <Ellipse Width="7" Height="7" Fill="{StaticResource LavenderBrush}" Margin="0,0,7,0" VerticalAlignment="Center" />
+                  <TextBlock Text="Codex 桌面任务 · 可监看、发送与跳转"
+                             FontSize="10.5"
+                             Foreground="#FF5F5680" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                  <Ellipse Width="7" Height="7" Fill="{StaticResource MintBrush}" Margin="0,0,7,0" VerticalAlignment="Center" />
+                  <TextBlock Text="新建本地任务 · 可显示完整回复、进度、停止与审批"
+                             FontSize="10.5"
+                             Foreground="#FF4F756C" />
+                </StackPanel>
+              </StackPanel>
+            </Border>
+            <ListBox x:Name="ThreadListBox"
+                     Grid.Row="2"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     ItemContainerStyle="{StaticResource MoonListBoxItemStyle}"
+                     SelectionChanged="ThreadListBox_SelectionChanged"
+                     MouseDoubleClick="ThreadListBox_MouseDoubleClick"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+              <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:CodexDesktopTask}">
+                  <Grid Margin="2">
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="30" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="26"
+                            Height="26"
+                            CornerRadius="9"
+                            Background="{StaticResource LavenderSoftBrush}"
+                            VerticalAlignment="Top">
+                      <TextBlock Text="&#xE9D5;"
+                                 FontFamily="Segoe Fluent Icons"
+                                 FontSize="13"
+                                 Foreground="{StaticResource LavenderBrush}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding DisplayName}"
+                               TextTrimming="CharacterEllipsis"
+                               FontSize="11.5"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource InkBrush}"
+                               ToolTip="{Binding Title}" />
+                    <Border Grid.Column="2"
+                            Padding="7,3"
+                            CornerRadius="9"
+                            Margin="7,0,0,0">
+                      <Border.Style>
+                        <Style TargetType="Border">
+                          <Setter Property="Background" Value="#1F7462D9" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding DisplayStatus}" Value="待确认">
+                              <Setter Property="Background" Value="#2DE29A2D" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DisplayStatus}" Value="待输入">
+                              <Setter Property="Background" Value="#2DE29A2D" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DisplayStatus}" Value="已就绪">
+                              <Setter Property="Background" Value="#263EB596" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DisplayStatus}" Value="异常">
+                              <Setter Property="Background" Value="#2AD45D69" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Border.Style>
+                      <TextBlock Text="{Binding DisplayStatus}"
+                                 FontSize="9.5"
+                                 FontWeight="SemiBold"
+                                 Foreground="#FF5F5680" />
+                    </Border>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="1"
+                               Grid.ColumnSpan="2"
+                               Text="{Binding CurrentOperation}"
+                               TextTrimming="CharacterEllipsis"
+                               FontSize="10.5"
+                               Foreground="#FF696176"
+                               Margin="0,4,0,0"
+                               ToolTip="{Binding CurrentOperation}" />
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="1"
+                               Grid.ColumnSpan="2"
+                               Text="{Binding Cwd}"
+                               TextTrimming="CharacterEllipsis"
+                               FontSize="9.5"
+                               Foreground="#FF9690A0"
+                               Margin="0,3,0,0"
+                               ToolTip="{Binding Cwd}" />
+                  </Grid>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            <Border Grid.Row="3"
+                    Margin="0,8,0,6"
+                    Padding="11,9"
+                    Style="{StaticResource MoonGlassCardStyle}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                  <TextBlock x:Name="SelectedTaskText"
+                             Text="请选择一个 Codex 任务"
+                             FontSize="11.5"
+                             FontWeight="SemiBold"
+                             Foreground="{StaticResource InkBrush}"
+                             TextTrimming="CharacterEllipsis" />
+                  <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <Ellipse x:Name="SelectedCapabilityDot"
+                             Width="7"
+                             Height="7"
+                             Fill="#FF8C84A0"
+                             Margin="0,0,6,0"
+                             VerticalAlignment="Center" />
+                    <TextBlock x:Name="SelectedCapabilityText"
+                               Text="选择后显示可用操作"
+                               FontSize="9.5"
+                               Foreground="{StaticResource MoonMutedBrush}"
+                               TextTrimming="CharacterEllipsis" />
+                  </StackPanel>
+                  <TextBlock x:Name="SelectedTaskDetailText"
+                             Margin="0,3,0,0"
+                             Text="选择后可直接发送指令"
+                             FontSize="9.5"
+                             Foreground="#FF8D8798"
+                             TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+                <Button x:Name="OpenTaskButton"
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        Padding="10,6"
+                        Style="{StaticResource MoonSecondaryButtonStyle}"
+                        Content="在 Codex 打开"
+                        FontSize="10"
+                        IsEnabled="False"
+                        Click="OpenTaskButton_Click" />
+              </Grid>
+            </Border>
+            <Border Grid.Row="4"
+                    Padding="10,8"
+                    Style="{StaticResource MoonSubtleCardStyle}">
+              <Expander x:Name="NewTaskExpander"
+                        Header="新建本地控制任务"
+                        IsExpanded="False"
+                        FontSize="10.5"
+                        FontWeight="SemiBold"
+                        Foreground="#FF655B7D"
+                        Expanded="NewTaskExpander_Expanded"
+                        Collapsed="NewTaskExpander_Collapsed">
+                <Grid Margin="0,8,0,1">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBox x:Name="ProjectPathTextBox"
+                           Height="36"
+                           Style="{StaticResource MoonSingleLineTextBoxStyle}"
+                           ToolTip="仅新建任务时使用的工作文件夹" />
+                  <Button x:Name="ChooseFolderButton"
+                          Grid.Column="1"
+                          Margin="7,0,0,0"
+                          Padding="10,6"
+                          Style="{StaticResource MoonSecondaryButtonStyle}"
+                          Content="选择"
+                          Click="ChooseFolderButton_Click" />
+                </Grid>
+              </Expander>
+            </Border>
+          </Grid>
+        </TabItem>
+
+        <TabItem x:Name="ProgressTab"
+                 Style="{StaticResource MoonTabItemStyle}">
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE9D9;"
+                         FontFamily="Segoe Fluent Icons"
+                         FontSize="15"
+                         Margin="0,0,7,0" />
+              <TextBlock Text="进度" />
+            </StackPanel>
+          </TabItem.Header>
+          <Grid Margin="0,6,0,0">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    Padding="11,8"
+                    Style="{StaticResource MoonGlassCardStyle}">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBlock x:Name="ProgressStatusText"
+                             Text="等待任务"
+                             FontSize="13"
+                             FontWeight="SemiBold"
+                             Foreground="{StaticResource InkBrush}" />
+                  <TextBlock x:Name="ProgressPercentText"
+                             Grid.Column="1"
+                             Text="—"
+                             FontSize="24"
+                             FontWeight="SemiBold"
+                             Foreground="{StaticResource LavenderBrush}" />
+                </Grid>
+                <ProgressBar x:Name="OverallProgressBar"
+                             Grid.Row="1"
+                             Height="6"
+                             Margin="0,6,0,6"
+                             Minimum="0"
+                             Maximum="100"
+                             Value="0"
+                             Style="{StaticResource MoonProgressBarStyle}" />
+                <TextBlock x:Name="CurrentStepText"
+                           Grid.Row="2"
+                           Text="尚未开始"
+                           FontSize="10.5"
+                           Foreground="{StaticResource MoonMutedBrush}"
+                           TextTrimming="CharacterEllipsis" />
+              </Grid>
+            </Border>
+            <Border Grid.Row="1"
+                    Margin="0,5,0,5"
+                    Padding="8,5"
+                    Style="{StaticResource MoonSubtleCardStyle}">
+              <TextBlock x:Name="ProgressScopeText"
+                         Text="完整计划、停止与审批仅适用于本地控制任务。"
+                         TextWrapping="Wrap"
+                         FontSize="10"
+                         Foreground="{StaticResource MoonMutedBrush}" />
+            </Border>
+            <Grid Grid.Row="2" Margin="3,0,3,4">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <TextBlock Text="计划步骤"
+                         FontSize="11"
+                         FontWeight="SemiBold"
+                         Foreground="{StaticResource InkBrush}" />
+              <Grid Grid.Row="1" Margin="0,5,0,0">
+                <ScrollViewer MaxHeight="72"
+                              VerticalScrollBarVisibility="Auto">
+                  <ItemsControl x:Name="PlanItemsControl">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="{x:Type models:CodexPlanStepProgress}">
+                        <Grid Margin="2,1">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="22" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <TextBlock Text="{Binding Icon}"
+                                     Foreground="{StaticResource LavenderBrush}"
+                                     FontWeight="SemiBold" />
+                          <TextBlock Grid.Column="1"
+                                     Text="{Binding Step}"
+                                     FontSize="10.5"
+                                     Foreground="#FF514A5D"
+                                     TextTrimming="CharacterEllipsis" />
+                          <Border Grid.Column="2"
+                                  Margin="7,0,0,0"
+                                  Padding="6,2"
+                                  CornerRadius="8"
+                                  Background="{StaticResource MoonSubtleBrush}">
+                            <TextBlock Text="{Binding Status}"
+                                       FontSize="9"
+                                       Foreground="#FF81798D" />
+                          </Border>
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </ScrollViewer>
+                <TextBlock Text="暂无本地计划明细"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="10"
+                           Foreground="#FF9992A3">
+                  <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                      <Setter Property="Visibility" Value="Visible" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=PlanItemsControl, Path=HasItems}" Value="True">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </TextBlock.Style>
+                </TextBlock>
+              </Grid>
+            </Grid>
+            <Border Grid.Row="3"
+                    Margin="0,0,0,5"
+                    Padding="8,6"
+                    Style="{StaticResource MoonSubtleCardStyle}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Padding="7,3"
+                        Margin="0,0,8,0"
+                        CornerRadius="8"
+                        Background="{StaticResource LavenderSoftBrush}"
+                        VerticalAlignment="Center">
+                  <TextBlock Text="当前"
+                             FontSize="9.5"
+                             Foreground="#FF655A7B" />
+                </Border>
+                <TextBlock x:Name="CurrentOperationText"
+                           Grid.Column="1"
+                           Text="等待你的要求"
+                           FontSize="10.5"
+                           FontWeight="SemiBold"
+                           Foreground="#FF4D465B"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center" />
+              </Grid>
+            </Border>
+            <Grid Grid.Row="4" Margin="3,0,3,0">
+              <Grid.Style>
+                <Style TargetType="Grid">
+                  <Setter Property="Visibility" Value="Visible" />
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=ApprovalBorder, Path=Visibility}"
+                                 Value="Visible">
+                      <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </Grid.Style>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+              </Grid.RowDefinitions>
+              <TextBlock Text="最近活动"
+                         FontSize="11"
+                         FontWeight="SemiBold"
+                         Foreground="{StaticResource InkBrush}" />
+              <Grid Grid.Row="1" Margin="0,5,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                  <ItemsControl x:Name="ActivityItemsControl">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="{x:Type models:CodexActivityProgress}">
+                        <Grid Margin="2,3">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <TextBlock Text="{Binding TimeText}"
+                                     FontSize="9"
+                                     Foreground="#FF9B94A4" />
+                          <TextBlock Grid.Column="1"
+                                     Text="{Binding Icon}"
+                                     Foreground="{StaticResource LavenderBrush}" />
+                          <StackPanel Grid.Column="2">
+                            <TextBlock Text="{Binding Summary}"
+                                       FontSize="10"
+                                       Foreground="#FF514A5D"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding Detail}"
+                                       FontSize="9"
+                                       Foreground="#FF9891A1"
+                                       TextTrimming="CharacterEllipsis" />
+                          </StackPanel>
+                          <TextBlock Grid.Column="3"
+                                     Text="{Binding Status}"
+                                     Margin="6,0,0,0"
+                                     FontSize="9"
+                                     Foreground="#FF91899B" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </ScrollViewer>
+                <TextBlock Text="暂无本地活动明细"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           Margin="0,6,0,0"
+                           FontSize="10"
+                           Foreground="#FF9992A3">
+                  <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                      <Setter Property="Visibility" Value="Visible" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=ActivityItemsControl, Path=HasItems}" Value="True">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </TextBlock.Style>
+                </TextBlock>
+              </Grid>
+            </Grid>
+            <Border x:Name="ApprovalBorder"
+                    Grid.Row="5"
+                    Padding="10,8"
+                    Margin="0,5,0,0"
+                    CornerRadius="14"
+                    Background="#FFFFF3DE"
+                    BorderBrush="#FFFFB84D"
+                    BorderThickness="1.2"
+                    Visibility="Collapsed">
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                  <Border Width="24"
+                          Height="24"
+                          Margin="0,0,8,0"
+                          CornerRadius="12"
+                          Background="#FFFFA928">
+                    <TextBlock Text="&#xE946;"
+                               FontFamily="Segoe Fluent Icons"
+                               FontSize="13"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                  </Border>
+                  <TextBlock x:Name="ApprovalTitleText"
+                             Text="需要确认"
+                             FontSize="12"
+                             FontWeight="SemiBold"
+                             Foreground="#FF704719"
+                             VerticalAlignment="Center" />
+                </StackPanel>
+                <ScrollViewer Grid.Row="1"
+                              Margin="32,3,0,5"
+                              MaxHeight="32"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              ToolTip="{Binding ElementName=ApprovalDetailText, Path=Text}">
+                  <TextBlock x:Name="ApprovalDetailText"
+                             TextWrapping="Wrap"
+                             Foreground="#FF735C42"
+                             FontSize="10.5" />
+                </ScrollViewer>
+                <StackPanel Grid.Row="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                  <Button Content="拒绝"
+                          Padding="11,5"
+                          Margin="0,0,8,0"
+                          Style="{StaticResource MoonSecondaryButtonStyle}"
+                          Click="DeclineApprovalButton_Click" />
+                  <Button Content="仅本次允许"
+                          Padding="12,5"
+                          Background="#FFFFB84D"
+                          BorderBrush="#FFFFB84D"
+                          Foreground="#FF5A3A0C"
+                          Style="{StaticResource MoonPrimaryButtonStyle}"
+                          Click="AcceptApprovalButton_Click" />
+                </StackPanel>
+              </Grid>
+            </Border>
+          </Grid>
+        </TabItem>
+      </TabControl>
+
+      <Border x:Name="TaskCommandComposer"
+              Grid.Row="1"
+              Margin="0,8,0,0"
+              Padding="10"
+              Style="{StaticResource MoonGlassCardStyle}"
+              Visibility="Collapsed">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid>
+            <TextBox x:Name="PromptTextBox"
+                     MinHeight="76"
+                     MaxHeight="104"
+                     Padding="12,9"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Top"
+                     VerticalScrollBarVisibility="Auto"
+                     Style="{StaticResource MoonTextBoxStyle}"
+                     ToolTip="输入任务要求；或用“柯朵，……”直接和她说话。Ctrl+Enter 发送。"
+                     TextChanged="PromptTextBox_TextChanged" />
+            <TextBlock Text="输入任务，或说：柯朵，记住……"
+                       Margin="14,10,0,0"
+                       VerticalAlignment="Top"
+                       IsHitTestVisible="False"
+                       FontSize="11.5"
+                       Foreground="#FF9B94A7">
+              <TextBlock.Style>
+                <Style TargetType="TextBlock">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                  <Style.Triggers>
+                    <MultiDataTrigger>
+                      <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=PromptTextBox, Path=Text}" Value="" />
+                        <Condition Binding="{Binding ElementName=PromptTextBox, Path=IsKeyboardFocusWithin}" Value="False" />
+                      </MultiDataTrigger.Conditions>
+                      <Setter Property="Visibility" Value="Visible" />
+                    </MultiDataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </TextBlock.Style>
+            </TextBlock>
+          </Grid>
+          <Grid Grid.Row="1" Margin="2,8,2,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="TaskStatusText"
+                       Text="等待你的要求"
+                       FontSize="10.5"
+                       Foreground="{StaticResource MoonMutedBrush}"
+                       VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" />
+            <Button x:Name="VoiceButton"
+                    Grid.Column="1"
+                    Margin="8,0,0,0"
+                    Padding="12,6"
+                    Style="{StaticResource MoonSecondaryButtonStyle}"
+                    Content="开始语音"
+                    ToolTip="优先使用 Agent Plan 豆包语音识别，失败自动回退本机 Whisper；回答结束后继续监听。"
+                    Click="VoiceButton_Click" />
+            <Button x:Name="StopButton"
+                    Grid.Column="2"
+                    Margin="8,0"
+                    Padding="12,6"
+                    Style="{StaticResource MoonSecondaryButtonStyle}"
+                    Content="停止任务"
+                    IsEnabled="False"
+                    Click="StopButton_Click" />
+            <Button x:Name="SendButton"
+                    Grid.Column="3"
+                    Padding="14,6"
+                    Style="{StaticResource MoonPrimaryButtonStyle}"
+                    Content="发送给 Codex"
+                    Click="SendButton_Click" />
+          </Grid>
+        </Grid>
+      </Border>
+
+      <Grid Grid.Row="2" Margin="2,9,2,1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <CheckBox x:Name="TtsCheckBox"
+                  Content="关键状态语音播报"
+                  VerticalAlignment="Center"
+                  Style="{StaticResource MoonSwitchCheckBoxStyle}"
+                  Checked="TtsCheckBox_Changed"
+                  Unchecked="TtsCheckBox_Changed" />
+        <TextBlock Grid.Column="1"
+                   Text="记忆默认只存本机 · Luna 动态台词需联网"
+                   FontSize="9.5"
+                   Foreground="#FF9992A3"
+                   VerticalAlignment="Center" />
+      </Grid>
+      </Grid>
+      </Grid>
+      </Border>
+    </Border>
+
+    <Image Width="64"
+           Height="64"
+           Margin="0"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           Style="{StaticResource MoonCornerOrnamentImageStyle}"
+           Panel.ZIndex="6" />
+    <Image Width="64"
+           Height="64"
+           Margin="0"
+           HorizontalAlignment="Right"
+           VerticalAlignment="Top"
+           Style="{StaticResource MoonCornerOrnamentImageStyle}"
+           RenderTransformOrigin="0.5,0.5"
+           Panel.ZIndex="6">
+      <Image.RenderTransform>
+        <ScaleTransform ScaleX="-1" />
+      </Image.RenderTransform>
+    </Image>
+    <Image Width="64"
+           Height="64"
+           Margin="0"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Bottom"
+           Style="{StaticResource MoonCornerOrnamentImageStyle}"
+           RenderTransformOrigin="0.5,0.5"
+           Panel.ZIndex="6">
+      <Image.RenderTransform>
+        <ScaleTransform ScaleY="-1" />
+      </Image.RenderTransform>
+    </Image>
+    <Image Width="64"
+           Height="64"
+           Margin="0"
+           HorizontalAlignment="Right"
+           VerticalAlignment="Bottom"
+           Style="{StaticResource MoonCornerOrnamentImageStyle}"
+           RenderTransformOrigin="0.5,0.5"
+           Panel.ZIndex="6">
+      <Image.RenderTransform>
+        <ScaleTransform ScaleX="-1" ScaleY="-1" />
+      </Image.RenderTransform>
+    </Image>
+  </Grid>
+</Window>

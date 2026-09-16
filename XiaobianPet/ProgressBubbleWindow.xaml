@@ -1,0 +1,160 @@
+<Window x:Class="XiaobianPet.ProgressBubbleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="柯朵任务进度"
+        Width="228"
+        Height="104"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        Focusable="False"
+        IsHitTestVisible="False"
+        WindowStartupLocation="Manual"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+  <Grid x:Name="RootGrid" Background="{x:Null}">
+    <!--
+      The complete visible shell is one generated raster asset. The oval body,
+      double border, both feather ornaments, and tail are never positioned as
+      independent WPF elements, so they cannot drift apart at different DPI.
+    -->
+    <Image x:Name="BubbleShellImage"
+           Source="Assets/ui-progress-bubble-shell-generated-v4.png"
+           Stretch="Fill"
+           RenderTransformOrigin="0.5,0.5"
+           RenderOptions.BitmapScalingMode="HighQuality"
+           Panel.ZIndex="0">
+      <Image.RenderTransform>
+        <ScaleTransform x:Name="BubbleShellTransform" ScaleY="1" />
+      </Image.RenderTransform>
+    </Image>
+
+    <Grid x:Name="BubbleContent"
+          Margin="24,20,24,10"
+          VerticalAlignment="Stretch"
+          Panel.ZIndex="1">
+      <Grid VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" HorizontalAlignment="Center">
+          <Ellipse x:Name="StatusDot"
+                   Width="0"
+                   Height="0"
+                   Visibility="Collapsed" />
+          <TextBlock x:Name="StatusText"
+                     Text="Codex 已就绪"
+                     FontFamily="Microsoft YaHei UI"
+                     FontSize="11.2"
+                     FontWeight="Medium"
+                     Foreground="#FF41384F"
+                     TextTrimming="CharacterEllipsis"
+                     TextAlignment="Center"
+                     VerticalAlignment="Center" />
+        </Grid>
+
+        <TextBlock x:Name="PercentText"
+                   Grid.Row="1"
+                   Text="—"
+                   FontFamily="Segoe UI"
+                   FontSize="21.5"
+                   FontWeight="Bold"
+                   Foreground="#FF725A91"
+                   TextAlignment="Center"
+                   HorizontalAlignment="Center" />
+
+        <Grid Grid.Row="2" Margin="13,1,13,3">
+          <ProgressBar x:Name="TaskProgressBar"
+                       Height="3"
+                       Minimum="0"
+                       Maximum="100"
+                       Value="0"
+                       Foreground="#FF9273AF"
+                       Background="#DDF0ECF5"
+                       BorderThickness="0"
+                       VerticalAlignment="Center" />
+          <Image x:Name="KnotImage"
+                 Width="46"
+                 Height="16"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Style="{StaticResource MoonKnotOrnamentImageStyle}"
+                 Panel.ZIndex="2" />
+        </Grid>
+
+        <Grid x:Name="StepRow" Grid.Row="3" Margin="0,0,0,4">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border Padding="7,2"
+                  Margin="0,0,7,0"
+                  CornerRadius="8"
+                  Background="#FFF2EEFA"
+                  BorderBrush="#80CBBEE0"
+                  BorderThickness="1">
+            <TextBlock Text="步骤"
+                       FontFamily="Microsoft YaHei UI"
+                       FontSize="9.5"
+                       FontWeight="SemiBold"
+                       Foreground="#FF77678A" />
+          </Border>
+          <TextBlock x:Name="CurrentStepText"
+                     Grid.Column="1"
+                     Text="尚未开始"
+                     FontFamily="Microsoft YaHei UI"
+                     FontSize="10.8"
+                     FontWeight="SemiBold"
+                     Foreground="#FF514A5D"
+                     TextTrimming="CharacterEllipsis"
+                     VerticalAlignment="Center" />
+        </Grid>
+
+        <Grid x:Name="OperationRow"
+              Grid.Row="4"
+              Margin="8,0,20,6">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Border x:Name="OperationLabel"
+                  Padding="7,2"
+                  Margin="0,0,7,0"
+                  CornerRadius="8"
+                  Background="#FFF7F3FA"
+                  BorderBrush="#78D1C6DF"
+                  BorderThickness="1"
+                  VerticalAlignment="Top">
+            <TextBlock Text="当前"
+                       FontFamily="Microsoft YaHei UI"
+                       FontSize="9.5"
+                       FontWeight="SemiBold"
+                       Foreground="#FF83748E" />
+          </Border>
+          <TextBlock x:Name="CurrentOperationText"
+                     Grid.Column="1"
+                     Text="柯朵已就绪"
+                     MaxHeight="42"
+                     FontFamily="Microsoft YaHei UI"
+                     FontSize="10.2"
+                     Foreground="#FF766D85"
+                     TextWrapping="Wrap"
+                     LineHeight="14"
+                     TextAlignment="Center"
+                     HorizontalAlignment="Stretch"
+                     TextTrimming="CharacterEllipsis"
+                     VerticalAlignment="Center" />
+        </Grid>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>
